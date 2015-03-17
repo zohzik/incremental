@@ -8,16 +8,37 @@
     </head>
     
     <body>
-        <div id="page">
+        <div id="page"> <!--Start of page-->
             <div id="header">
                 <div id="title">basic incremental game</div>
             </div>
-            <div id="content">
-                <div id="stats" class="block">This is where stats will go</div>
-                <div id='clickables' class="block">this is where the clickables will go</div>
-                <div id='buildings' class="block">this is where the buildings will go</div>
+            <div id="content"> <!-- main content -->
+                <div id="stats" class="block">
+                    <div class="label">gold: </div>
+                    <div class="label" id="money">0</div>
+                </div>
+                <!--end of stats-->
+                <div id='clickables' class="block">
+                    <input type="button" value="click me!" onclick="gatherMoney();">
+                </div>
+                <!--end of clickables-->
+                <div id='buildings' class="block">
+                  <div id="building1">
+                    <input type="button" value="Lemonade Stand" onclick="buyLemonadeStand()"><br/>
+                    <div class="label">Cost:</div>
+                    <div id="building1Cost" class="label">10</div><br/>
+                    <div class="label">Money/Sec:</div>
+                    <div id="building1PerSec" class="label">1</div><br/>
+                    <div class="label">Quantity:</div>
+                    <div id="building1Qty" class="label">0</div><br/>
+                  </div>
+                  <!--end of lemonade stand panal-->
+                </div>
+                <!--end of buildings-->
                 <div id="upgrades" class="block">this is where the upgrades will go</div>
+                <!--end of upgrades-->
             </div>
+            <!--end of main content-->
         </div>
     </body>
     
