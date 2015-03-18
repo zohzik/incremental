@@ -32,3 +32,19 @@
 .label{
     display:inline-block;
 }
+
+.na{
+  display:none;
+}
+
+#left{
+  font-size:20px;
+  cursor:pointer;
+}
+
+#right{
+  font-size:20px;
+  cursor:pointer;
+}
+
+

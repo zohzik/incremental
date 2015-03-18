@@ -24,13 +24,17 @@
                 <!--end of clickables-->
                 <div id='buildings' class="block">
                   <div id="building1">
-                    <input type="button" value="Lemonade Stand" onclick="buyLemonadeStand()"><br/>
-                    <div class="label">Cost:</div>
-                    <div id="building1Cost" class="label">10</div><br/>
-                    <div class="label">Money/Sec:</div>
-                    <div id="building1PerSec" class="label">1</div><br/>
+                    <div id="left" class="label" onclick="cycle('left');"><=</div>
+                    <input type="button" value="Lemonade Stand" onclick="buyBuilding(0);" id="Lemonade Stand">
+                    <input type="button" value="Pizza place" onclick="buyBuilding(1);" class="na" id="Pizza place">
+                    <input type="button" value="Office" onclick="buyBuilding(2);" class="na" id="Office">
+                    <div id="right" class="label" onclick="cycle('right');">=></div>
+                    <br/><div class="label">Cost:</div>
+                    <div id="buildingCost" class="label">10</div><br/>
+                    <div class="label">Gold/Sec:</div>
+                    <div id="buildingPerSec" class="label">1</div><br/>
                     <div class="label">Quantity:</div>
-                    <div id="building1Qty" class="label">0</div><br/>
+                    <div id="buildingQty" class="label">0</div><br/>
                   </div>
                   <!--end of lemonade stand panal-->
                 </div>
