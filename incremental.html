@@ -14,8 +14,10 @@
             </div>
             <div id="content"> <!-- main content -->
                 <div id="stats" class="block">
-                    <div class="label">gold: </div>
-                    <div class="label" id="money">0</div>
+                    <div class="label">Gold: </div>
+                    <div class="label" id="money">0</div><br/>
+                    <div class="label">Building Gold Per Second: </div>
+                    <dic class="label" id="MoneyPerSecTotal">0</dic>
                 </div>
                 <!--end of stats-->
                 <div id='clickables' class="block">
@@ -25,9 +27,18 @@
                 <div id='buildings' class="block">
                   <div id="building1">
                     <div id="left" class="label" onclick="cycle('left');"><=</div>
-                    <input type="button" value="Lemonade Stand" onclick="buyBuilding(0);" id="Lemonade Stand">
-                    <input type="button" value="Pizza place" onclick="buyBuilding(1);" class="na" id="Pizza place">
-                    <input type="button" value="Office" onclick="buyBuilding(2);" class="na" id="Office">
+                    <div id="buildingButtons" class="label">
+                      <input type="button" value="Peasant" onclick="buyBuilding(0);" id="Peasant">
+                      <input type="button" value="Farmer" onclick="buyBuilding(1);" class="na" id="Farmer">
+                      <input type="button" value="Farming Family" onclick="buyBuilding(2);" class="na" id="Farming_family">
+                      <input type="button" value="Cow Barn" onclick="buyBuilding(3);" class="na" id="Cow_barn">
+                      <input type="button" value="Large Farming Family" onclick="buyBuilding(4);" class="na" id="Large_farming_family">
+                      <input type="button" value="Squire" onclick="buyBuilding(5);" class="na" id="Squire">
+                      <input type="button" value="Noble" onclick="buyBuilding(6);" class="na" id="Noble">
+                      <input type="button" value="Knight" onclick="buyBuilding(7);" class="na" id="Knight">
+                      <input type="button" value="King" onclick="buyBuilding(8);" class="na" id="King">
+                      <input type="button" value="God" onclick="buyBuilding(9);" class="na" id="God">
+                    </div>
                     <div id="right" class="label" onclick="cycle('right');">=></div>
                     <br/><div class="label">Cost:</div>
                     <div id="buildingCost" class="label">10</div><br/>
@@ -41,6 +52,8 @@
                 <!--end of buildings-->
                 <div id="upgrades" class="block">this is where the upgrades will go</div>
                 <!--end of upgrades-->
+                <br/><input type="button" value="Save game" onclick="saveGame();" id="Save_button">
+                <input type="button" value="Delete game" onclick="deleteGame();" id="Delete_button">
             </div>
             <!--end of main content-->
         </div>

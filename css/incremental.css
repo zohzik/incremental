@@ -47,4 +47,12 @@
   cursor:pointer;
 }
 
+#clickables{
+  position:relative;
+}
 
+.floatingText{
+  position:absolute;
+  width:50px;
+  height:20px;
+}
