@@ -2,13 +2,13 @@
 <html>
     <head>
         <title>Basic incremental</title>
-        <meta charset="UTF-8">
+        <meta content="text/html;charset=UTF-8">
         <link rel='stylesheet' type='text/css' href='css/incremental.css'>
         <script type='text/javascript' src="javascript/incremental.js"></script>
     </head>
     
     <body>
-        <div id="page"> <!--Start of page-->
+        <div class="page" id="mainTab"> <!--Start of page-->
             <div id="header">
                 <div id="title">basic incremental game</div>
             </div>
@@ -50,13 +50,24 @@
                   <!--end of lemonade stand panal-->
                 </div>
                 <!--end of buildings-->
-                <div id="upgrades" class="block">this is where the upgrades will go</div>
+                <div id="upgrades" class="block"><input type="button" value="Upgrades" onclick="switchTab('upgradeTab');" id="goToUpgradeTab"></div>
                 <!--end of upgrades-->
                 <br/><input type="button" value="Save game" onclick="saveGame();" id="Save_button">
                 <input type="button" value="Delete game" onclick="deleteGame();" id="Delete_button">
             </div>
             <!--end of main content-->
         </div>
+        <div id="upgradeTab" class="na">
+            <div class="upgradeBox" id="upgradeBox0">
+              <center><p>Gold Per Click + 1</p><p>Cost:250</p></center>
+              <input type="button" value="Buy" onclick="buyUpgrade(0);">
+            </div>
+            <div class="upgradeBox" id="upgradeBox1">
+              <center><p>Peasants gold x2</p><p>Cost:1000</p></center>
+              <input type="button" value="Buy" onclick="buyUpgrade(1);">
+            </div>
+            
+            <br/><input type="button" value="Go back" onclick="switchTab('mainTab');" id="homeButton">
+        </div>
     </body>
-    
 </html>

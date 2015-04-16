@@ -6,7 +6,7 @@
     margin-top:50px;
 }
 
-#page{
+.page{
     border-style: solid;
     border-width: 1px;
     border-color: #333333;
@@ -51,8 +51,10 @@
   position:relative;
 }
 
-.floatingText{
-  position:absolute;
-  width:50px;
-  height:20px;
+.upgradeBox{
+  height:100px;
+  width:100px;
+  border:1px solid black;
+  font-size:12px;
+  display:inline-block;
 }

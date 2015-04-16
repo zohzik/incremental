@@ -1,19 +1,22 @@
 var buildings = []; //array of buildings
+var upgrades = []; //array of upgrades
 var active_button;  //The button showing on the HTML document
+var active_tab; //The page showing on the HTML document
 var buildingGoldPerSecond = 0; //Gold per second
 var date = new Date(); //date object
 var gameData = ""; //game save data
+var moneyPerClick = 1; //money gained per click on main button
 
 //starts money collecting loop
 var timer = window.setInterval(function(){tick();}, 1000);
 
 //adds money upon main button click
 function gatherMoney(){
-    game.money++;
+    game.money+=moneyPerClick;
     document.getElementById("money").innerHTML = game.money;
 }
 
-//adds building money every second
+//adds building money
 function tick(){
   for(var i = 0; i < buildings.length; i++){
     game.money = game.money + (game.buildingAmounts[i] * buildings[i].persec);
@@ -39,21 +42,50 @@ function buyBuilding(id){
   }
 }
 
+//buys an upgrade, removes it from view, adds the effect
+function buyUpgrade(id){
+  if(game.money >= upgrades[id].cost){
+    game.money -= upgrades[id].cost;
+    upgrades[id].effect();
+    document.getElementById("upgradeBox" + id.toString()).className = "na";
+    game.upgradesBought[id] = true;
+    document.getElementById("buildingPerSec").innerHTML = buildings[active_button].persec;
+    configBGPS();
+    document.getElementById("MoneyPerSecTotal").innerHTML = buildingGoldPerSecond;
+  }
+}
+
+//buys an upgrade, with money bypass
+function buyUpgradeBypass(id){
+  upgrades[id].effect();
+  document.getElementById("upgradeBox" + id.toString()).className = "na";
+  game.upgradesBought[id] = true;
+  document.getElementById("buildingPerSec").innerHTML = buildings[active_button].persec;
+  configBGPS();
+  document.getElementById("MoneyPerSecTotal").innerHTML = buildingGoldPerSecond;
+}
+
 //The main player object
 function gameSave(){
   this.money = 0;
   this.buildingAmounts = [];
   this.buildingCosts = [];
+  this.upgradesBought = [];
   for(var i = 0;i < buildings.length; i++){
     this.buildingAmounts[i] = 0;
     this.buildingCosts[i] = buildings[i].baseCost;
   }
+  for(var q = 0; i < upgrades.length; i++){
+    this.upgradesBought[i] = false;
+  }
 }
 
-//starts the player object and money once page is loaded
+//initilizes all things required upon page load
 window.onload = function(){
   initBuildings();
+  initUpgrades();
   initPlayer();
+  active_tab = "mainTab";
 };
 
 //the abstract building object
@@ -61,7 +93,24 @@ function building(name, cost, persec, costIncrease){
   this.name = name;
   this.baseCost = cost;
   this.persec = persec;
+  this.basePerSec = persec;
   this.costIncrease = costIncrease;
+}
+
+//the abstract upgrade object
+function upgrade(name, cost, effect){
+  this.name = name;
+  this.cost = cost;
+  this.effect = effect;
+}
+
+//searches for and returns a building
+function searchBuilding(buildingName){
+  for(var i = 0; i < buildings.length; i++){
+    if(buildingName === buildings[i].name){
+      return buildings[i];
+    }
+  }
 }
 
 //loads all the buildings into an array
@@ -80,10 +129,26 @@ function initBuildings(){
   loadBuilding("God", 2500000, 50000, 0.25);
 }
 
-//creates the individual buildings
+//loads all the upgrades into an array
+function initUpgrades(){
+  loadUpgrade("upgradeBox0", 250, function(){
+    moneyPerClick += 1;
+  });
+  loadUpgrade("upgradeBox1", 1000, function(){
+    searchBuilding("Peasant").persec*=2;
+  });
+}
+
+//creates the individual buildings and loads into array
 function loadBuilding(name, cost, persec, costIncrease){
   var cur = buildings.length;
   buildings[cur] = new building(name, cost, persec, costIncrease);
+}
+
+//loads all the upgrades into an array
+function loadUpgrade(name, cost, effect){
+  var cur = upgrades.length;
+  upgrades[cur] = new upgrade(name, cost, effect);
 }
 
 //cycles through the different buildings on the html screen
@@ -127,10 +192,12 @@ function initPlayer(){
     window.game = JSON.parse(gameData);
     document.getElementById("buildingCost").innerHTML = game.buildingCosts[0];
     document.getElementById("buildingQty").innerHTML = game.buildingAmounts[0];
-    buildingGoldPerSecond=0;
-    for(var i = 0; i < buildings.length; i++){
-      buildingGoldPerSecond+=(buildings[i].persec * game.buildingAmounts[i]);
+    for(var i = 0; i < upgrades.length; i++){
+      if(game.upgradesBought[i]===true){
+        buyUpgradeBypass(i);
+      }
     }
+    configBGPS();
     document.getElementById("MoneyPerSecTotal").innerHTML = buildingGoldPerSecond;
   }
 }
@@ -147,15 +214,42 @@ function saveGame(){
 function deleteGame(){
   if(confirm("Are you sure you want to delete the save?") === true){
     document.cookie = "player=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    window.game = new gameSave();
-    buildingGoldPerSecond = 0;
-    document.getElementById("MoneyPerSecTotal").innerHTML = 0;
-    if(active_button === 0){
-      cycle("right");
-      cycle("left");
-    }
-    for(var i = active_button; i > 0; i--){
-      cycle("left");
-    }
+    resetToDefaults();
   }
 }
+
+//switches the tabs over
+function switchTab(tabName){
+  document.getElementById(active_tab).className = "na";
+  document.getElementById(tabName).className = "page";
+  active_tab = tabName;
+}
+
+//reconfigures the buildingGoldPerSecond variable
+function configBGPS(){
+  buildingGoldPerSecond = 0;
+  for(var i = 0; i < buildings.length; i++){
+    buildingGoldPerSecond+=(buildings[i].persec * game.buildingAmounts[i]);
+  }
+}
+
+//resets all buttons, pages, numbers, ext. to defaults
+function resetToDefaults(){
+  window.game = new gameSave();
+  buildingGoldPerSecond = 0;
+  for(var i = 0; i < buildings.length; i++){
+    buildings[i].persec = buildings[i].basePerSec;
+  }
+  document.getElementById("MoneyPerSecTotal").innerHTML = 0;
+  if(active_button === 0){
+    cycle("right");
+    cycle("left");
+  }
+  for(i = active_button; i > 0; i--){
+    cycle("left");
+  }
+  for(i = 0; i < upgrades.length; i++){
+    document.getElementById("upgradeBox"+i).className = "upgradeBox";
+  }
+}
+
